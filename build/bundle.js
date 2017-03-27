@@ -9505,6 +9505,14 @@ var App = function (_Component) {
 				lng: -73.9884469
 			};
 
+			var markers = [//BUT WHY IS WRONG const markers = {
+			{
+				location: {
+					lat: 40.7575285,
+					lng: -73.9884469
+				}
+			}];
+
 			return _react2.default.createElement(
 				'div',
 				null,
@@ -21793,6 +21801,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(80);
@@ -21809,6 +21819,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // const mapContainer = <div style={{width:100%, height:100%}}></div>  //DON'T FORGET '', ''
 // import { googleMapLoader, googleMap, marker } from 'react-google-maps'  //DON'T FORGET UPPERCASE
+// marker = {{marker}}>  //SHOULD BE {{markers}}
+// const Marker = {   //SHOULD BE marker
 
 
 var Map = function (_Component) {
@@ -21825,12 +21837,27 @@ var Map = function (_Component) {
     value: function render() {
       var mapContainer = _react2.default.createElement('div', { style: { width: '100%', height: '100%' } });
 
+      var markers = this.props.markers.map(function (venue, i) {
+        //WRONG TO USE HERE .marker 
+        var marker = {
+          position: {
+            lat: venue.location.lat,
+            lng: venue.location.lng
+          }
+        };
+        return _react2.default.createElement(_reactGoogleMaps.Marker, _extends({ key: i }, marker));
+      });
+
       return _react2.default.createElement(_reactGoogleMaps.GoogleMapLoader, {
         containerElement: mapContainer,
-        googleMapElement: _react2.default.createElement(_reactGoogleMaps.GoogleMap, {
-          defaultZoom: 15,
-          defaultCenter: this.props.center,
-          option: { streetViewControl: false, mapTypeControl: false } })
+        googleMapElement: _react2.default.createElement(
+          _reactGoogleMaps.GoogleMap,
+          {
+            defaultZoom: 15,
+            defaultCenter: this.props.center,
+            option: { streetViewControl: false, mapTypeControl: false } },
+          markers
+        )
       });
     }
   }]);

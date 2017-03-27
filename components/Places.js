@@ -4,7 +4,7 @@ class Places extends Component {
 	render(){
 		return(
 			<div>
-			    This is Map component.
+			    This is Places component.
 			</div>
 		)
 	}

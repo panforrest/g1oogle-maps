@@ -9519,7 +9519,7 @@ var App = function (_Component) {
 				_react2.default.createElement(
 					'div',
 					{ style: { width: 300, height: 600, background: 'red' } },
-					_react2.default.createElement(_Map2.default, { center: location })
+					_react2.default.createElement(_Map2.default, { center: location, markers: markers })
 				),
 				_react2.default.createElement(_Places2.default, null)
 			);

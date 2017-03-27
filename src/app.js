@@ -25,7 +25,7 @@ class App extends Component {
 		return (
 			<div>
 			    <div style={{width:300, height:600, background:'red'}}>
-			        <Map center={location} />
+			        <Map center={location} markers={markers} />
 			    </div>    
 			    <Places />
 			</div>

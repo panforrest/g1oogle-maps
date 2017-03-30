@@ -1,5 +1,6 @@
 // ReactDOM.render(<App />, document.getElementById('root'))  //HERE NEED TO TIE webpack.config.js
 //<div style={{width:300 height:600 backgroudn:'red'}}>   //DON'T FORGET ,
+// MOST IMPORTANT THING TO LEARN IN THIS DEMO 			    <Places venues={this.state.venues} />
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Map from '../components/Map'
@@ -7,6 +8,13 @@ import Places from '../components/Places'
 import superagent from 'superagent' 
 
 class App extends Component {
+    constructor(){
+    	super()
+    	this.state = {
+    		venues: []   //venues: null
+    	}
+    }
+
     componentDidMount(){
     	console.log('componentDidMount: ')
 
@@ -17,14 +25,18 @@ class App extends Component {
         .query(null)
         .set('Accept', 'text/json')   //NOT WHY NOT .set('Accept', 'application/json') 
         .end((err, response) => {
-        	if (err) {
-        		const msg = err.message || err
-        		alert(err)
-        		return
-        	}
+        	// if (err) {
+        	// 	const msg = err.message || err
+        	// 	alert(err)
+        	// 	return
+        	// }
 
-            const venues = resonse.body.response.venues   //const venue = resonse.body.response.venue
+            const venues = response.body.response.venues   //const venue = resonse.body.response.venue
         	console.log(JSON.stringify(venues))
+
+        	this.setState({
+        		venues: venues
+        	})
 
         })
     }
@@ -49,7 +61,7 @@ class App extends Component {
 			    <div style={{width:300, height:600, background:'red'}}>
 			        <Map center={location} markers={markers} />
 			    </div>    
-			    <Places />
+			    <Places venues={this.state.venues} />
 			</div>
 		)
 	}

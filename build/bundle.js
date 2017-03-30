@@ -10138,7 +10138,7 @@ exports.default = Map;
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -10153,35 +10153,45 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //NOT SURE WHY IT SHOULD BE props        // const list = this.state.venues.map((venue, i) => {
+// <li key={i}>{venue.name}</li>	// <li key={venue.id}>{venue.name}</li>
+
 
 var Places = function (_Component) {
-	_inherits(Places, _Component);
+  _inherits(Places, _Component);
 
-	function Places() {
-		_classCallCheck(this, Places);
+  function Places() {
+    _classCallCheck(this, Places);
 
-		return _possibleConstructorReturn(this, (Places.__proto__ || Object.getPrototypeOf(Places)).apply(this, arguments));
-	}
+    return _possibleConstructorReturn(this, (Places.__proto__ || Object.getPrototypeOf(Places)).apply(this, arguments));
+  }
 
-	_createClass(Places, [{
-		key: 'render',
+  _createClass(Places, [{
+    key: 'render',
 
 
-		// componentDidMount(){
-		// 	console.log('componentDidMount: ')
-		// }
+    // componentDidMount(){
+    // 	console.log('componentDidMount: ')
+    // }
 
-		value: function render() {
-			return _react2.default.createElement(
-				'div',
-				null,
-				'This is Places component.'
-			);
-		}
-	}]);
+    value: function render() {
+      var list = this.props.venues.map(function (venue, i) {
+        return _react2.default.createElement(
+          'li',
+          { key: i },
+          venue.name
+        );
+      });
 
-	return Places;
+      return _react2.default.createElement(
+        'div',
+        null,
+        list
+      );
+    }
+  }]);
+
+  return Places;
 }(_react.Component);
 
 exports.default = Places;
@@ -11162,6 +11172,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // ReactDOM.render(<App />, document.getElementById('root'))  //HERE NEED TO TIE webpack.config.js
 //<div style={{width:300 height:600 backgroudn:'red'}}>   //DON'T FORGET ,
+// MOST IMPORTANT THING TO LEARN IN THIS DEMO 			    <Places venues={this.state.venues} />
 
 
 var App = function (_Component) {
@@ -11170,26 +11181,37 @@ var App = function (_Component) {
     function App() {
         _classCallCheck(this, App);
 
-        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
+
+        _this.state = {
+            venues: [] //venues: null
+        };
+        return _this;
     }
 
     _createClass(App, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            var _this2 = this;
+
             console.log('componentDidMount: ');
 
             var url = 'https://api.foursquare.com/v2/venues/search?v=20140806&ll=40.7575285,-73.9884469&client_id=VZZ1EUDOT0JYITGFDKVVMCLYHB3NURAYK3OHB5SK5N453NFD&client_secret=UAA15MIFIWVKZQRH22KPSYVWREIF2EMMH0GQ0ZKIQZC322NZ';
 
             _superagent2.default.get(url).query(null).set('Accept', 'text/json') //NOT WHY NOT .set('Accept', 'application/json') 
             .end(function (err, response) {
-                if (err) {
-                    var msg = err.message || err;
-                    alert(err);
-                    return;
-                }
+                // if (err) {
+                // 	const msg = err.message || err
+                // 	alert(err)
+                // 	return
+                // }
 
-                var venues = resonse.body.response.venues; //const venue = resonse.body.response.venue
+                var venues = response.body.response.venues; //const venue = resonse.body.response.venue
                 console.log(JSON.stringify(venues));
+
+                _this2.setState({
+                    venues: venues
+                });
             });
         }
     }, {
@@ -11216,7 +11238,7 @@ var App = function (_Component) {
                     { style: { width: 300, height: 600, background: 'red' } },
                     _react2.default.createElement(_Map2.default, { center: location, markers: markers })
                 ),
-                _react2.default.createElement(_Places2.default, null)
+                _react2.default.createElement(_Places2.default, { venues: this.state.venues })
             );
         }
     }]);

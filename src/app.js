@@ -8,6 +8,7 @@ import Places from '../components/Places'
 import superagent from 'superagent' 
 
 class App extends Component {
+
     constructor(){
     	super()
     	this.state = {
@@ -25,11 +26,6 @@ class App extends Component {
         .query(null)
         .set('Accept', 'text/json')   //NOT WHY NOT .set('Accept', 'application/json') 
         .end((err, response) => {
-        	// if (err) {
-        	// 	const msg = err.message || err
-        	// 	alert(err)
-        	// 	return
-        	// }
 
             const venues = response.body.response.venues   //const venue = resonse.body.response.venue
         	console.log(JSON.stringify(venues))
@@ -37,9 +33,9 @@ class App extends Component {
         	this.setState({
         		venues: venues
         	})
-
         })
     }
+
 
 	render(){
         const location = {
@@ -59,7 +55,7 @@ class App extends Component {
 		return (
 			<div>
 			    <div style={{width:300, height:600, background:'red'}}>
-			        <Map center={location} markers={markers} />
+			        <Map center={location} markers={this.state.venues} />
 			    </div>    
 			    <Places venues={this.state.venues} />
 			</div>

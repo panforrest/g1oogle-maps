@@ -11200,11 +11200,6 @@ var App = function (_Component) {
 
             _superagent2.default.get(url).query(null).set('Accept', 'text/json') //NOT WHY NOT .set('Accept', 'application/json') 
             .end(function (err, response) {
-                // if (err) {
-                // 	const msg = err.message || err
-                // 	alert(err)
-                // 	return
-                // }
 
                 var venues = response.body.response.venues; //const venue = resonse.body.response.venue
                 console.log(JSON.stringify(venues));
@@ -11236,7 +11231,7 @@ var App = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { style: { width: 300, height: 600, background: 'red' } },
-                    _react2.default.createElement(_Map2.default, { center: location, markers: markers })
+                    _react2.default.createElement(_Map2.default, { center: location, markers: this.state.venues })
                 ),
                 _react2.default.createElement(_Places2.default, { venues: this.state.venues })
             );
